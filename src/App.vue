@@ -1,32 +1,46 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <AppTemplate 
+    title="Example"
+    :authenticate="true">
+    
+    <template v-slot:nav>
+      <v-list
+        dense
+        nav >
+        <v-list-item
+          v-for="(item, index) in nav"
+          :key="`nav_item_${index}`"
+          :to="item.to"
+          exact>
+          <v-list-item-icon>
+            <v-icon>{{item.icon}}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{item.title}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template>
+
+  </AppTemplate>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import AppTemplate from '@/AppTemplate.vue'
+export default {
+  name: 'App',
 
-#nav {
-  padding: 30px;
-}
+  components: {
+    AppTemplate
+  },
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+    nav: [
+      {title: 'Home', to: {name: 'Home'}, icon: 'mdi-home'},
+      {title: 'About', to: {name: 'About'}, icon: 'mdi-information-outline'},
+      {title: 'Misc', to: {name: 'Misc'}, icon: 'mdi-menu'},
+    ]
+  }),
+};
+</script>
