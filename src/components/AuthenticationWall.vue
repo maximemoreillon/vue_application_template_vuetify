@@ -15,7 +15,14 @@
       <v-col
         cols="12"
         class="logo_wrapper">
-        <AnimatedLogo class="logo" v-if="true"/>
+        <v-img 
+          v-if="options.authentication_logo" 
+          max-height="40vmin"
+          max-width="40vmin"
+          :src="options.authentication_logo"/>
+        <AnimatedLogo 
+          v-else 
+          class="logo"/>
       </v-col>
     </v-row>
     <v-row>
@@ -64,6 +71,9 @@ export default {
   name: 'AuthenticationWall',
   props: {
     title: String,
+    options: {
+      default(){return {}}
+    },
   },
   mixins: [
     StoreMixin,
@@ -100,7 +110,7 @@ export default {
 }
 
 .logo {
- width: 30vmin;
+  width: 30vmin;
   height: 30vmin;
 
 }

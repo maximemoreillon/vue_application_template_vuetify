@@ -93,18 +93,25 @@
 
 
 
-    <v-footer padless color="transparent">
+    <v-footer 
+      padless 
+      color="transparent"
+      class="text-center" >
       <!-- wrapping in a row creates overflow -->
       <!-- cols 12 for full width -->
+      <!-- Cannot get text-center to work unless wrapped in v-col -->
       <v-col
         class="text-center"
         cols="12" >
-        {{title}} - Maxime Moreillon - {{new Date().getFullYear()}}
+        <span v-if="title || options.title">{{title || options.title}} -</span>
+         {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
       </v-col>
     </v-footer>
 
     <!-- Authentication wall in overlay -->
-    <AuthenticationWall />
+    <AuthenticationWall 
+      :title="title"
+      :options="options"/>
 
   </v-app>
 </template>
