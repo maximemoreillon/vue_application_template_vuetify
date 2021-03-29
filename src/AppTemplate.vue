@@ -8,7 +8,9 @@
       color="#444444"
       dark>
 
-      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-app-bar-nav-icon 
+        v-if="$slots.nav"
+        @click="drawer = !drawer" />
 
       <v-img
         alt="Vuetify Logo"
@@ -43,13 +45,15 @@
 
     <!-- Navigation drawer -->
     <v-navigation-drawer
+      v-if="$slots.nav"
       v-model="drawer"
       clipped
       app>
       <slot name="nav" />
     </v-navigation-drawer>
 
-    <v-main>
+    <v-main
+      :class="options.main_class">
       
 
         <!-- Fluid to remove gutters -->
@@ -116,6 +120,9 @@ export default {
     
     title: String,
     authenticate: Boolean,
+    options: {
+      default(){return {}}
+    },
   },
   mixins: [StoreMixin],
 

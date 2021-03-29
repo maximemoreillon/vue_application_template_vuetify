@@ -1,7 +1,8 @@
 <template>
   <AppTemplate 
     title="Example"
-    :authenticate="true">
+    :authenticate="true"
+    :options="{}">
     
     <template v-slot:nav>
       <v-list
