@@ -1,9 +1,9 @@
 <template>
-  <AppTemplate 
+  <AppTemplate
     title="Example"
     :authenticate="true"
-    :options="{}">
-    
+    :options="options">
+
     <template v-slot:nav>
       <v-list
         dense
@@ -37,6 +37,11 @@ export default {
   },
 
   data: () => ({
+    options: {
+      authenticate: true,
+      login_url: process.env.VUE_APP_LOGIN_URL,
+      identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+    },
     nav: [
       {title: 'Home', to: {name: 'Home'}, icon: 'mdi-home'},
       {title: 'About', to: {name: 'About'}, icon: 'mdi-information-outline'},

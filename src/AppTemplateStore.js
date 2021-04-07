@@ -3,6 +3,8 @@ import VueCookies from 'vue-cookies'
 import axios from 'axios'
 
 const state = Vue.observable({
+  // This is dirty
+  template_options: {},
   state: 'initial',
   user: null,
   route_loading: false,
@@ -12,6 +14,10 @@ const state = Vue.observable({
 
 
 const mutations = {
+  // This is dirty
+  set_options(options) {
+    state.template_options = options
+  },
   set_state(new_state) {
     state.state = new_state
   },
@@ -29,8 +35,8 @@ const mutations = {
       return
     }
 
+    const url = state.template_options.identification_url
     const headers = { Authorization: `Bearer ${jwt}` }
-    const url = `${process.env.VUE_APP_AUTHENTICATION_API_URL}/whoami`
 
     axios.get(url, {headers})
     .then( ({data}) => {
@@ -50,6 +56,7 @@ const mutations = {
       this.set_user(undefined)
       this.set_state('login')
       VueCookies.remove('jwt')
+      // How to deal with Axios headers?
     })
     .finally( () => { })
   },

@@ -8,7 +8,7 @@
       color="#444444"
       dark>
 
-      <v-app-bar-nav-icon 
+      <v-app-bar-nav-icon
         v-if="$slots.nav"
         @click="drawer = !drawer" />
 
@@ -19,7 +19,7 @@
         src="https://cdn.maximemoreillon.com/logo/thick/logo.png"
         transition="scale-transition"
         width="40" />
-      
+
       <v-toolbar-title
         v-if="title">
         {{title}}
@@ -27,14 +27,16 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn  
+      <!-- TODO put slot here -->
+
+      <v-btn
         icon
-        v-if="homepage_url"
-        :href="homepage_url">
+        v-if="options.homepage_url"
+        :href="options.homepage_url">
         <v-icon>mdi-apps</v-icon>
       </v-btn>
 
-      <v-btn  
+      <v-btn
         icon
         v-if="user"
         @click="logout()">
@@ -54,12 +56,12 @@
 
     <v-main
       :class="options.main_class">
-      
+
 
         <!-- Fluid to remove gutters -->
         <!-- v-if content not super clean here -->
         <!-- Maybe put a transition -->
-        <v-container 
+        <v-container
           v-if="state === 'content'"
           fill-height
           align-content-start
@@ -79,11 +81,11 @@
 
                 <!-- Haven't found a more vuetify way to do this -->
                 <div v-else class="route_loader_wrapper">
-                  <v-progress-circular 
+                  <v-progress-circular
                     indeterminate
                     size="70"/>
                 </div>
-                
+
               </transition>
             </template>
 
@@ -93,8 +95,8 @@
 
 
 
-    <v-footer 
-      padless 
+    <v-footer
+      padless
       color="transparent"
       class="text-center" >
       <!-- wrapping in a row creates overflow -->
@@ -109,7 +111,7 @@
     </v-footer>
 
     <!-- Authentication wall in overlay -->
-    <AuthenticationWall 
+    <AuthenticationWall
       :title="title"
       :options="options"/>
 
@@ -124,7 +126,7 @@ import AuthenticationWall from './components/AuthenticationWall.vue'
 export default {
   name: 'AppTemplate',
   props: {
-    
+
     title: String,
     authenticate: Boolean,
     options: {
@@ -139,8 +141,6 @@ export default {
 
   data: () => ({
     drawer: null,
-    homepage_url: process.env.VUE_APP_HOMEPAGE_URL,
-    authentication_api_url: process.env.VUE_APP_AUTHENTICATION_API_URL
   }),
 
   // Watching user changes (i.e. user has logged in)
@@ -151,16 +151,17 @@ export default {
       this.set_authorization_header()
     },
 
-    
+
   },
 
   mounted(){
-    if(this.authenticate) {
-      if(this.authentication_api_url) {
+    this.set_options(this.options)
+    if(this.options.authenticate) {
+      if(this.options.login_url && this.options.identification_url) {
         this.get_user()
       }
       else {
-        console.error('Authenticate set to true but VUE_APP_AUTHENTICATION_API_URL not set')
+        console.error('Missing login_url or identification_url')
         this.set_state('content')
       }
     }

@@ -1,5 +1,5 @@
 <template>
-<v-form 
+<v-form
   class="text-center"
   @submit.prevent="login()">
 
@@ -20,7 +20,7 @@
     <span>Login</span>
   </v-btn>
 
-  <v-snackbar 
+  <v-snackbar
       color="#C00000"
       dark
       v-model="snack" >
@@ -51,6 +51,7 @@ import StoreMixin from '../mixins/store.js'
 export default {
   name: 'LoginForm',
   props: {
+    options: Object,
   },
   mixins: [StoreMixin],
   components: {
@@ -69,14 +70,14 @@ export default {
     login(){
       // Send credentials and get JWT
 
-      const url = `${process.env.VUE_APP_AUTHENTICATION_API_URL}/login`
+      const url = this.options.login_url
       const body = { identifier: this.identifier, password: this.password }
 
       this.snack = null
       this.processing = true
 
       axios.post(url, body)
-      
+
       .then( ({data}) => {
         if(!data.jwt) return
         VueCookies.set('jwt', data.jwt)
@@ -95,7 +96,7 @@ export default {
         this.processing = false
 
       })
-      
+
     },
 
 

@@ -8,20 +8,20 @@
   z-index="1000"
   :value="state !== 'content'">
 
-  <v-container 
+  <v-container
     fluid
     fill-height>
     <v-row>
       <v-col
         cols="12"
         class="logo_wrapper">
-        <v-img 
-          v-if="options.authentication_logo" 
+        <v-img
+          v-if="options.authentication_logo"
           max-height="40vmin"
           max-width="40vmin"
           :src="options.authentication_logo"/>
-        <AnimatedLogo 
-          v-else 
+        <AnimatedLogo
+          v-else
           class="logo"/>
       </v-col>
     </v-row>
@@ -32,11 +32,12 @@
 
         <transition name="fade" mode="out-in" appear>
           <LoginForm
+            :options="options"
             key="loginForm"
             v-if="state === 'login'"
             :title="title"/>
 
-          <div 
+          <div
             class="greetings"
             v-if="state === 'greetings'" >
             Welcome {{user.properties.display_name}}
@@ -48,17 +49,17 @@
 
         </transition>
       </v-col>
-      
+
     </v-row>
-    
+
   </v-container>
 
-  
 
 
-      
+
+
 </v-overlay>
- 
+
 </template>
 
 <script>
