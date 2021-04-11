@@ -203,7 +203,7 @@ export default {
       })
 
       this.$router.afterEach(() => {
-        //this.set_route_loading(false)
+        this.set_route_loading(false)
       })
     },
   }
