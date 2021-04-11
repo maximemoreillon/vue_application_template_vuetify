@@ -43,10 +43,16 @@ const mutations = {
       this.set_user(data)
 
       // This will show even if the user is logged in already at the time of opening the app
-      this.set_state('greetings')
-      setTimeout(() => {
+      if(state.template_options.skip_greetings) {
         this.set_state('content')
-      },2000)
+      }
+      else {
+        this.set_state('greetings')
+        setTimeout(() => {
+          this.set_state('content')
+        },2000)
+      }
+
 
 
     })

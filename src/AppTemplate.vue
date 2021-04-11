@@ -80,7 +80,7 @@
                   class="actual_main"/>
 
                 <!-- Haven't found a more vuetify way to do this -->
-                <div v-else class="route_loader_wrapper">
+                <div v-if="route_loading" class="route_loader_wrapper">
                   <v-progress-circular
                     indeterminate
                     size="70"/>
@@ -175,9 +175,12 @@ export default {
   methods: {
       set_authorization_header(){
       // check if axios is installed
-      if(!this.axios) return
+      if(!this.axios) {
+        console.error(`Axios not found, skipping auth header`)
+        return
+      }
 
-      const jwt = VueCookies.get("test_jwt")
+      const jwt = VueCookies.get("jwt")
 
       // wither set or unset the header depending on of jwt being in cookies
       if(jwt) {
@@ -200,7 +203,7 @@ export default {
       })
 
       this.$router.afterEach(() => {
-        this.set_route_loading(false)
+        //this.set_route_loading(false)
       })
     },
   }
@@ -219,9 +222,11 @@ export default {
 }
 
 .route_loader_wrapper {
-  margin-top: 20vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .route-transition-enter-active, .route-transition-leave-active {
   transition: opacity 0.25s;

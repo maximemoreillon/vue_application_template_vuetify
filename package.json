@@ -1,6 +1,6 @@
 {
   "name": "@moreillon/vue_application_template_vuetify",
-  "version": "0.2.0",
+  "version": "0.2.5",
   "main": "dist/AppTemplate.umd.js",
   "module": "dist/AppTemplate.esm.js",
   "unpkg": "dist/AppTemplate.min.js",
