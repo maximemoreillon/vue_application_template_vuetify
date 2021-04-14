@@ -63,8 +63,6 @@
         <!-- Maybe put a transition -->
         <v-container
           v-if="state === 'content'"
-          fill-height
-          align-content-start
           fluid>
 
             <slot v-if="$slots.default"/>
@@ -93,8 +91,7 @@
 
     </v-main>
 
-
-
+    <!-- v-footer does not take app -->
     <v-footer
       padless
       color="transparent"
