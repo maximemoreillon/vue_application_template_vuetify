@@ -38,7 +38,7 @@ export default {
 
   data: () => ({
     options: {
-      authenticate: false,
+      authenticate: true,
       login_url: process.env.VUE_APP_LOGIN_URL,
       identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
     },

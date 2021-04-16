@@ -14,6 +14,7 @@
 
   <v-btn
     dark
+    type="submit"
     @click="login"
     :loading="processing">
     <v-icon>mdi-login</v-icon>
