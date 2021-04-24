@@ -1,8 +1,7 @@
 <template>
   <AppTemplate
-    title="Example"
-    :authenticate="true"
-    :options="options">
+    :options="options"
+    @user="get_user($event)">
 
     <template v-slot:nav>
       <v-list
@@ -38,6 +37,7 @@ export default {
 
   data: () => ({
     options: {
+      title: "Vuetify example",
       authenticate: true,
       login_url: process.env.VUE_APP_LOGIN_URL,
       identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
@@ -48,5 +48,11 @@ export default {
       {title: 'Misc', to: {name: 'Misc'}, icon: 'mdi-menu'},
     ]
   }),
+
+  methods: {
+    get_user(user){
+      console.log(user)
+    }
+  }
 };
 </script>

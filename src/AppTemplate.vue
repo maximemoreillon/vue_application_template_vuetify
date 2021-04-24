@@ -20,9 +20,8 @@
         transition="scale-transition"
         width="40" />
 
-      <v-toolbar-title
-        v-if="title">
-        {{title}}
+      <v-toolbar-title>
+        {{options.title || 'Untitled'}}
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -102,14 +101,13 @@
       <v-col
         class="text-center"
         cols="12" >
-        <span v-if="title || options.title">{{title || options.title}} -</span>
+        <span>{{options.title || 'Untitled app'}} -</span>
          {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
       </v-col>
     </v-footer>
 
     <!-- Authentication wall in overlay -->
     <AuthenticationWall
-      :title="title"
       :options="options"/>
 
   </v-app>
@@ -124,8 +122,6 @@ export default {
   name: 'AppTemplate',
   props: {
 
-    title: String,
-    authenticate: Boolean,
     options: {
       default(){return {}}
     },
@@ -146,6 +142,7 @@ export default {
     // User is in mixin
     user(){
       this.set_authorization_header()
+      this.$emit('user',this.user)
     },
 
 
@@ -172,10 +169,7 @@ export default {
   methods: {
       set_authorization_header(){
       // check if axios is installed
-      if(!this.axios) {
-        console.error(`Axios not found, skipping auth header`)
-        return
-      }
+      if(!this.axios) return
 
       const jwt = VueCookies.get("jwt")
 
