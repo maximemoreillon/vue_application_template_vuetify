@@ -15,14 +15,16 @@
       <v-col
         cols="12"
         class="logo_wrapper">
-        <v-img
-          v-if="options.authentication_logo"
-          max-height="40vmin"
-          max-width="40vmin"
-          :src="options.authentication_logo"/>
-        <AnimatedLogo
-          v-else
-          class="logo"/>
+        <transition name="fade" mode="out-in" appear>
+          <v-img
+            v-if="options.authentication_logo"
+            max-height="30vmin"
+            max-width="30vmin"
+            :src="options.authentication_logo"/>
+          <AnimatedLogo
+            v-else
+            class="logo"/>
+        </transition>
       </v-col>
     </v-row>
     <v-row>

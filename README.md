@@ -2,7 +2,6 @@
 
 ## Usage
 ```vue
-
 <template>
   <AppTemplate
     :options="options"
@@ -61,6 +60,29 @@ export default {
   }
 };
 </script>
+```
+## Options
 
+```javascript
+options: {
+  // Names
+  title: "Vuetify banana",
+  author: 'Roger Banana - ソフトウェアからくりチーム', // name written in the footer
 
+  // Colors
+  main_class: 'blue',
+  app_bar_color: '#222',
+  footer_color: 'pink',
+
+  // Logos
+  header_logo: require('@/assets/skt_logo_white.svg'),
+  authentication_logo: require('@/assets/skt_logo_black.svg'),
+
+  // Authentication
+  authenticate: true, // enforce authentication
+  login_url: process.env.VUE_APP_LOGIN_URL,
+  identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+  skip_greetings: true, // do not show greetings
+
+},
 ```

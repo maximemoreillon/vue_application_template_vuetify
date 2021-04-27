@@ -5,7 +5,7 @@
     <v-app-bar
       app
       clipped-left
-      color="#444444"
+      :color="options.app_bar_color || '#444444'"
       dark>
 
       <v-app-bar-nav-icon
@@ -14,9 +14,10 @@
 
       <v-img
         alt="Vuetify Logo"
-        class="shrink mr-2 rotating_logo"
+        class="shrink mr-2"
+        :class="{'rotating_logo': !options.header_logo}"
         contain
-        src="https://cdn.maximemoreillon.com/logo/thick/logo.png"
+        :src="options.header_logo || 'https://cdn.maximemoreillon.com/logo/thick/logo.png'"
         transition="scale-transition"
         width="40" />
 
@@ -26,7 +27,7 @@
 
       <v-spacer></v-spacer>
 
-      <!-- TODO put slot here -->
+      <slot name="header" />
 
       <v-btn
         icon
@@ -53,8 +54,7 @@
       <slot name="nav" />
     </v-navigation-drawer>
 
-    <v-main
-      :class="options.main_class">
+    <v-main :class="options.main_class">
 
 
         <!-- Fluid to remove gutters -->
@@ -92,9 +92,7 @@
 
     <!-- v-footer does not take app -->
     <v-footer
-      padless
-      color="transparent"
-      class="text-center" >
+      :color="options.footer_color || 'white'">
       <!-- wrapping in a row creates overflow -->
       <!-- cols 12 for full width -->
       <!-- Cannot get text-center to work unless wrapped in v-col -->
