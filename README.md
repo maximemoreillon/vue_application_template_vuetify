@@ -67,7 +67,7 @@ export default {
 options: {
   // Names
   title: "Vuetify banana",
-  author: 'Roger Banana - ソフトウェアからくりチーム', // name written in the footer
+  author: 'Roger Banana', // name written in the footer
 
   // Colors
   main_class: 'blue',
