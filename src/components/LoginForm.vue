@@ -84,6 +84,10 @@ export default {
         //VueCookies.set('jwt', data.jwt))
         localStorage.jwt = data.jwt
         this.get_user()
+
+        // clear the inputs
+        //this.identifier = ''
+        //this.password = ''
       })
       .catch( (error) => {
         if(error.response) this.snack_text = error.response.data
@@ -92,9 +96,7 @@ export default {
         console.error(error)
        })
       .finally(() => {
-        // clear the inputs
-        this.identifier = ''
-        this.password = ''
+
         this.processing = false
 
       })
