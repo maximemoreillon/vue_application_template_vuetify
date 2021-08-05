@@ -42,7 +42,12 @@
           <div
             class="greetings"
             v-if="state === 'greetings'" >
-            Welcome {{user.properties.display_name}}
+            Welcome {{
+              user.display_name ||
+              user.username ||
+              user.properties.display_name ||
+              user.properties.username
+            }}
           </div>
 
           <v-progress-circular
