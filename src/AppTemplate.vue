@@ -112,7 +112,7 @@
 </template>
 
 <script>
-//import VueCookies from 'vue-cookies'
+import VueCookie from 'vue-cookie'
 import StoreMixin from './mixins/store.js'
 import AuthenticationWall from './components/AuthenticationWall.vue'
 
@@ -169,8 +169,7 @@ export default {
       // check if axios is installed
       if(!this.axios) return
 
-      //const jwt = VueCookies.get("jwt")
-      const jwt = localStorage.jwt
+      const jwt = VueCookie.get("jwt")
 
       // wither set or unset the header depending on of jwt being in cookies
       if(jwt) {

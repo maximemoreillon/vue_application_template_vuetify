@@ -1,5 +1,5 @@
 import Vue from "vue"
-//import VueCookies from 'vue-cookies'
+import VueCookie from 'vue-cookie'
 import axios from 'axios'
 
 const state = Vue.observable({
@@ -28,8 +28,7 @@ const mutations = {
 
     this.set_state('loading')
 
-    //const jwt = VueCookies.get("jwt")
-    const jwt = localStorage.jwt
+    const jwt = VueCookie.get("jwt")
     if(!jwt) {
       this.set_user(undefined)
       this.set_state('login')
@@ -62,15 +61,13 @@ const mutations = {
       console.error(error)
       this.set_user(undefined)
       this.set_state('login')
-      //VueCookies.remove('jwt')
-      localStorage.removeItem('jwt')
+      VueCookie.delete('jwt')
       // How to deal with Axios headers?
     })
     .finally( () => { })
   },
   logout(){
-    //VueCookies.remove('jwt')
-    localStorage.removeItem('jwt')
+    VueCookie.delete('jwt')
     this.get_user()
   },
   set_user_loading(loading){
