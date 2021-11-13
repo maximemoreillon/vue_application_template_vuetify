@@ -41,10 +41,10 @@ export default {
 
   data: () => ({
     options: {
-      title: "Vuetify example",
+      title: "Your application title goes here",
       authenticate: true,
-      login_url: process.env.VUE_APP_LOGIN_URL,
-      identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+      login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/login`,
+      identification_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/whoami`,
     },
     nav: [
       {title: 'Home', to: {name: 'Home'}, icon: 'mdi-home'},
@@ -70,9 +70,11 @@ options: {
   author: 'Roger Banana', // name written in the footer
 
   // Colors
-  main_class: 'blue',
-  app_bar_color: '#222',
-  footer_color: 'pink',
+  colors: {
+    main: 'red',
+    footer: 'blue',
+    app_bar: 'yellow',
+  },
 
   // Logos
   header_logo: require('@/assets/skt_logo_white.svg'),

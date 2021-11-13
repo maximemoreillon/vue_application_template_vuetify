@@ -38,13 +38,18 @@ export default {
   data: () => ({
     options: {
       // Names
-      title: "Vuetify banana",
+      title: "Vuetify template",
       //author: 'Roger Banana', // name written in the footer
 
       // Colors
-      //main_class: 'blue',
+      colors: {
+        main: 'red',
+        footer: 'blue',
+        //app_bar: 'yellow'
+      },
+      //main_class: 'blue lighten-4',
       //app_bar_color: '#222',
-      //footer_color: 'pink',
+      //footer_color: 'pink lighten-5',
 
       // Logos
       //header_logo: require('@/assets/skt_logo_white.svg'),

@@ -90,7 +90,7 @@ export default {
           samesite: 'Strict',
           expires: '1M',
         }
-        
+
         VueCookie.set('jwt',jwt, cookie_options)
 
         this.get_user()

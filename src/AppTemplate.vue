@@ -5,7 +5,7 @@
     <v-app-bar
       app
       clipped-left
-      :color="options.app_bar_color || '#444444'"
+      :color="app_bar_color"
       dark>
 
       <v-app-bar-nav-icon
@@ -54,7 +54,8 @@
       <slot name="nav" />
     </v-navigation-drawer>
 
-    <v-main :class="options.main_class">
+    <v-main
+      :class="main_background_color">
 
 
         <!-- Fluid to remove gutters -->
@@ -77,7 +78,9 @@
                   class="actual_main"/>
 
                 <!-- Haven't found a more vuetify way to do this -->
-                <div v-if="route_loading" class="route_loader_wrapper">
+                <div
+                  v-if="route_loading"
+                  class="route_loader_wrapper">
                   <v-progress-circular
                     indeterminate
                     size="70"/>
@@ -92,7 +95,7 @@
 
     <!-- v-footer does not take app -->
     <v-footer
-      :color="options.footer_color || 'white'">
+      :color="footer_background_color">
       <!-- wrapping in a row creates overflow -->
       <!-- cols 12 for full width -->
       <!-- Cannot get text-center to work unless wrapped in v-col -->
@@ -195,8 +198,31 @@ export default {
         this.set_route_loading(false)
       })
     },
+  },
+  computed: {
+    main_background_color(){
+      const default_color = 'grey lighten-4'
+      if(!this.options.colors) return default_color
+      const {
+        main,
+        background,
+      } = this.options.colors
+      return main || background || default_color
+    },
+    footer_background_color(){
+      const default_color = this.main_background_color
+      if(!this.options.colors) return default_color
+      const { footer } = this.options.colors
+      return footer || default_color
+    },
+    app_bar_color(){
+      const default_color = '#444444'
+      if(!this.options.colors) return default_color
+      const { app_bar } = this.options.colors
+      return app_bar || default_color
+    },
   }
-};
+}
 </script>
 
 <style >

@@ -27,20 +27,25 @@
         </transition>
       </v-col>
     </v-row>
-    <v-row>
+
+    <v-row justify="center">
+      <v-col cols="auto text-h6">
+        <span class="application_title">{{options.title}}</span>
+      </v-col>
+    </v-row>
+
+    <v-row justify="center">
       <v-col
-        cols="12"
-        class="centered">
+        cols="auto">
 
         <transition name="fade" mode="out-in" appear>
           <LoginForm
             :options="options"
             key="loginForm"
-            v-if="state === 'login'"
-            :title="title"/>
+            v-if="state === 'login'"/>
 
           <div
-            class="greetings"
+            class="text-h4"
             v-if="state === 'greetings'" >
             Welcome {{
               user.display_name ||
@@ -108,14 +113,7 @@ export default {
   margin-bottom: 2vmin;
 }
 
-.centered {
-  display: flex;
-  justify-content: center;
-}
 
-.greetings {
-  font-size: 150%;
-}
 
 .logo {
   width: 30vmin;
@@ -128,6 +126,19 @@ export default {
   margin-bottom: 2.5vh;
 }
 
+.debug {
+  outline: 1px solid red;
+}
 
+.application_title{
+  animation-name: title_appear;
+  animation-duration: 1s;
+  animation-delay: 0.25s;
+  animation-fill-mode: both;
+}
 
+@keyframes title_appear {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
 </style>
