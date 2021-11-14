@@ -45,7 +45,7 @@
             v-if="state === 'login'"/>
 
           <div
-            class="text-h4"
+            class="text-h5"
             v-if="state === 'greetings'" >
             Welcome {{
               user.display_name ||
