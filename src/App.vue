@@ -39,7 +39,7 @@ export default {
     options: {
       // Names
       title: "Vuetify template",
-      //author: 'Roger Banana', // name written in the footer
+      author: 'Example Author', // name written in the footer
 
       // Colors
       colors: {
@@ -56,9 +56,9 @@ export default {
       //authentication_logo: require('@/assets/skt_logo_black.svg'),
 
       // Authentication
-      authenticate: true, // enforce authentication
-      login_url: process.env.VUE_APP_LOGIN_URL,
-      identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+      //authenticate: true, // enforce authentication
+      login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/login`,
+      identification_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/whoami`,
       //skip_greetings: true, // do not show greetings
 
     },

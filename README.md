@@ -66,8 +66,10 @@ export default {
 ```javascript
 options: {
   // Names
-  title: "Vuetify banana",
-  author: 'Roger Banana', // name written in the footer
+  title: "Vuetify template example",
+  author: 'Example Author', // name written in the footer
+
+  skip_greetings: true, // do not show greetings
 
   // Colors
   colors: {
@@ -81,10 +83,11 @@ options: {
   authentication_logo: require('@/assets/skt_logo_black.svg'),
 
   // Authentication
-  authenticate: true, // enforce authentication
+  // Authentication is enforced if both those the following options are set
   login_url: process.env.VUE_APP_LOGIN_URL,
   identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
-  skip_greetings: true, // do not show greetings
+
+
 
 },
 ```

@@ -151,18 +151,11 @@ export default {
 
   mounted(){
     this.set_options(this.options)
-    if(this.options.authenticate) {
-      if(this.options.login_url && this.options.identification_url) {
-        this.get_user()
-      }
-      else {
-        console.error('Missing login_url or identification_url')
-        this.set_state('content')
-      }
+
+    if(this.options.login_url && this.options.identification_url) {
+      this.get_user()
     }
-    else {
-      this.set_state('content')
-    }
+    else this.set_state('content')
 
     this.set_router_loading_events()
   },
