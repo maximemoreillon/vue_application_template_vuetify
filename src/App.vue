@@ -59,6 +59,7 @@ export default {
       //authenticate: true, // enforce authentication
       login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/login`,
       identification_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/whoami`,
+      password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
       //skip_greetings: true, // do not show greetings
 
     },

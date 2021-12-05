@@ -18,8 +18,14 @@
     @click="login"
     :loading="processing">
     <v-icon>mdi-login</v-icon>
-    <span>Login</span>
+    <span class="ml-2">Login</span>
   </v-btn>
+
+  <div
+    v-if="options.password_reset_url"
+    class="mt-5">
+    <a :href="options.password_reset_url">Password reset</a>
+  </div>
 
   <v-snackbar
       color="#C00000"
