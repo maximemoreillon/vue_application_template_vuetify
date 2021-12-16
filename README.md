@@ -1,4 +1,4 @@
-# vue_application_template_vuetify
+# Vuetify application template
 
 ## Usage
 ```vue

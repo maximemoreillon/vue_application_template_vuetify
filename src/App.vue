@@ -55,6 +55,9 @@ export default {
       //header_logo: require('@/assets/skt_logo_white.svg'),
       //authentication_logo: require('@/assets/skt_logo_black.svg'),
 
+      homepage_url: 'https://maximemoreillon.com',
+      profile_url: 'https://users.maximemoreillon.com/self',
+
       // Authentication
       //authenticate: true, // enforce authentication
       login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/login`,

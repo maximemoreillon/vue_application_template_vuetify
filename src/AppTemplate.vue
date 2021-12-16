@@ -38,6 +38,13 @@
 
       <v-btn
         icon
+        v-if="options.profile_url"
+        :href="options.profile_url">
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+
+      <v-btn
+        icon
         v-if="user"
         @click="logout()">
         <v-icon>mdi-logout</v-icon>
