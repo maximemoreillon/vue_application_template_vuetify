@@ -50,6 +50,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .logo_wrapper{
   /* This is a rotating frame for all logo elements */
 
@@ -179,6 +180,16 @@ body.loaded .logo_layer_full{
   100% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 
