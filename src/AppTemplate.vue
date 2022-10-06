@@ -172,9 +172,9 @@ export default {
       // check if axios is installed
       if(!this.axios) return
 
-      const jwt = VueCookie.get("jwt")
+      const jwt = VueCookie.get("jwt") || localStorage.getItem('jwt')
 
-      // wither set or unset the header depending on of jwt being in cookies
+      // setting or unsetting the header depends on jwt being in cookies
       if(jwt) {
         this.axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
       }

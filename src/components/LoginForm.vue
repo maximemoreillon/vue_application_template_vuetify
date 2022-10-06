@@ -97,7 +97,8 @@ export default {
           expires: '1M',
         }
 
-        VueCookie.set('jwt',jwt, cookie_options)
+        if (this.options.jwt_storage === 'localStorage') localStorage.setItem('jwt', jwt)
+        else VueCookie.set('jwt',jwt, cookie_options)
 
         this.get_user()
 

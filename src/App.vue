@@ -59,10 +59,10 @@ export default {
       profile_url: 'https://users.maximemoreillon.com/self',
 
       // Authentication
-      //authenticate: true, // enforce authentication
-      login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/login`,
-      identification_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/v2/whoami`,
+      login_url: process.env.VUE_APP_LOGIN_URL,
+      identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
+      jwt_storage: 'localStorage'
       //skip_greetings: true, // do not show greetings
 
     },

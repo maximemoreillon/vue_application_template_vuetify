@@ -28,7 +28,8 @@ const mutations = {
 
     this.set_state('loading')
 
-    const jwt = VueCookie.get("jwt")
+    const jwt = VueCookie.get("jwt") || localStorage.getItem('jwt')
+    
     if(!jwt) {
       this.set_user(undefined)
       this.set_state('login')
@@ -62,12 +63,14 @@ const mutations = {
       this.set_user(undefined)
       this.set_state('login')
       VueCookie.delete('jwt')
+      localStorage.removeItem('jwt')
       // How to deal with Axios headers?
     })
     .finally( () => { })
   },
   logout(){
     VueCookie.delete('jwt')
+    localStorage.removeItem('jwt')
     this.get_user()
   },
   set_user_loading(loading){
