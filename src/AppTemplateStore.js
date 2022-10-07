@@ -60,10 +60,19 @@ const mutations = {
     .catch( (error) => {
       // there was a problem authenticating the user against the auth API
       console.error(error)
+
+      if (error.response) {
+        const {status} = error.response
+        if(status === 403) {
+          VueCookie.delete('jwt')
+          localStorage.removeItem('jwt')
+        }
+      }
+
       this.set_user(undefined)
       this.set_state('login')
-      VueCookie.delete('jwt')
-      localStorage.removeItem('jwt')
+      
+
       // How to deal with Axios headers?
     })
     .finally( () => { })

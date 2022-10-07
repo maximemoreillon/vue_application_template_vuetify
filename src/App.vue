@@ -61,6 +61,7 @@ export default {
       // Authentication
       login_url: process.env.VUE_APP_LOGIN_URL,
       identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+      // identification_url: 'http://172.16.98.151',
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
       jwt_storage: 'localStorage'
       //skip_greetings: true, // do not show greetings
