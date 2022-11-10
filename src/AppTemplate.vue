@@ -12,14 +12,20 @@
         v-if="$slots.nav"
         @click="drawer = !drawer" />
 
-      <v-img
-        alt="Vuetify Logo"
+      
+      <img 
+        class="header_logo"
+        :class="{'rotating_logo': !options.header_logo}"
+        :src="options.header_logo || 'https://cdn.maximemoreillon.com/logo/thick/logo.png'" >
+
+      <!-- <v-img
+        alt="Logo"
         class="shrink mr-2"
         :class="{'rotating_logo': !options.header_logo}"
         contain
         :src="options.header_logo || 'https://cdn.maximemoreillon.com/logo/thick/logo.png'"
         transition="scale-transition"
-        width="40" />
+        width="40" /> -->
 
       <v-toolbar-title>
         {{options.title || 'Untitled'}}
@@ -248,6 +254,12 @@ export default {
 }
 .route-transition-enter, .route-transition-leave-to {
   opacity: 0;
+}
+
+.header_logo {
+    max-height: 2.5em;
+    object-fit: scale-down;
+    margin-right: 0.5em;
 }
 
 .rotating_logo {
