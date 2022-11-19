@@ -15,10 +15,9 @@
   <v-btn
     dark
     type="submit"
-    @click="login"
     :loading="processing">
-    <v-icon>mdi-login</v-icon>
-    <span class="ml-2">Login</span>
+    <v-icon left>mdi-login</v-icon>
+    <span>Login</span>
   </v-btn>
 
   <div
