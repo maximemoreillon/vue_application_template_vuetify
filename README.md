@@ -1,5 +1,7 @@
 # Vuetify application template
 
+Note: This package is intended for Vuetify 2
+
 ## Usage
 ```vue
 <template>
