@@ -18,18 +18,7 @@
         :class="{'rotating_logo': !options.header_logo}"
         :src="options.header_logo || 'https://cdn.maximemoreillon.com/logo/thick/logo.png'" >
 
-      <!-- <v-img
-        alt="Logo"
-        class="shrink mr-2"
-        :class="{'rotating_logo': !options.header_logo}"
-        contain
-        :src="options.header_logo || 'https://cdn.maximemoreillon.com/logo/thick/logo.png'"
-        transition="scale-transition"
-        width="40" /> -->
-
-      <v-toolbar-title>
-        {{options.title || 'Untitled'}}
-      </v-toolbar-title>
+      <v-toolbar-title>{{options.title || 'Untitled'}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -109,15 +98,11 @@
     <!-- v-footer does not take app -->
     <v-footer
       :color="footer_background_color">
-      <!-- wrapping in a row creates overflow -->
-      <!-- cols 12 for full width -->
-      <!-- Cannot get text-center to work unless wrapped in v-col -->
-      <v-col
-        class="text-center"
-        cols="12" >
-        <span>{{options.title || 'Untitled app'}} -</span>
-         {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
-      </v-col>
+      <v-row dense justify="center">
+        <v-col cols="auto">
+          {{options.title || 'Untitled app'}} - {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
+        </v-col>
+      </v-row>
     </v-footer>
 
     <!-- Authentication wall in overlay -->

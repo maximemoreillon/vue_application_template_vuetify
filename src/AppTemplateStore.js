@@ -88,6 +88,7 @@ const mutations = {
   set_route_loading(loading){
     state.route_loading = loading
   },
+  // Nav
   set_nav_open(nav_state){
     state.nav_open = nav_state
   },
