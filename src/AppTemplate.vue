@@ -131,9 +131,11 @@ export default {
     AuthenticationWall
   },
 
-  data: () => ({
-    drawer: null,
-  }),
+  data(){
+    return {
+      drawer: this.options.drawer,
+    }
+  },
 
   // Watching user changes (i.e. user has logged in)
   // Used to set auth headers in Axios
@@ -156,6 +158,7 @@ export default {
     else this.set_state('content')
 
     this.set_router_loading_events()
+
   },
 
   methods: {
