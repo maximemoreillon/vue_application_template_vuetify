@@ -100,7 +100,10 @@
       :color="footer_background_color">
       <v-row dense justify="center">
         <v-col cols="auto">
-          {{options.title || 'Untitled app'}} - {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
+          <slot name="footer" v-if="$slots.footer"/>
+          <span v-else>
+            {{options.title || 'Untitled app'}} - {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
+          </span>
         </v-col>
       </v-row>
     </v-footer>

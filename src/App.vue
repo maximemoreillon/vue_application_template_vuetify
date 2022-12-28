@@ -23,6 +23,10 @@
       </v-list>
     </template>
 
+    <template v-slot:footer>
+      test
+    </template>
+
   </AppTemplate>
 </template>
 
