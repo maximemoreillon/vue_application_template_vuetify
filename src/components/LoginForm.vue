@@ -22,7 +22,11 @@
       <a :href="options.password_reset_url">Password reset</a>
     </div>
 
-    <div v-if="options.login_hint" class="mt-5" v-html="options.login_hint" />
+    <v-subheader
+      v-if="options.login_hint"
+      class="mt-5 login_hint"
+      v-html="options.login_hint"
+    />
 
     <v-snackbar color="#C00000" dark v-model="snack">
       {{ snack_text }}
