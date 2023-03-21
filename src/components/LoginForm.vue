@@ -1,5 +1,5 @@
 <template>
-  <v-form class="text-center" @submit.prevent="login()">
+  <v-form class="text-center login_form" @submit.prevent="login()">
     <v-text-field
       label="Username"
       v-model="identifier"
@@ -110,4 +110,10 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
