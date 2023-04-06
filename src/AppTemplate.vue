@@ -1,140 +1,104 @@
 <template>
   <v-app>
+    <v-app-bar app clipped-left :color="app_bar_color" dark>
+      <v-app-bar-nav-icon v-if="$slots.nav" @click="drawer = !drawer" />
 
-    <!-- Top bar -->
-    <v-app-bar
-      app
-      clipped-left
-      :color="app_bar_color"
-      dark>
-
-      <v-app-bar-nav-icon
-        v-if="$slots.nav"
-        @click="drawer = !drawer" />
-
-      
-      <img 
+      <img
+        v-if="options.header_logo"
         class="header_logo"
-        :class="{'rotating_logo': !options.header_logo}"
-        :src="options.header_logo || 'https://cdn.maximemoreillon.com/logo/thick/logo.png'" >
+        :src="options.header_logo"
+      />
+      <img
+        v-else
+        class="header_logo rotating_logo"
+        src="./assets/img/logo/logo.png"
+      />
 
-      <v-toolbar-title>{{options.title || 'Untitled'}}</v-toolbar-title>
+      <v-toolbar-title>{{ options.title || "Untitled" }}</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <slot name="header" />
 
-      <v-btn
-        icon
-        v-if="options.homepage_url"
-        :href="options.homepage_url">
+      <v-btn icon v-if="options.homepage_url" :href="options.homepage_url">
         <v-icon>mdi-apps</v-icon>
       </v-btn>
 
-      <v-btn
-        icon
-        v-if="options.profile_url"
-        :href="options.profile_url">
+      <v-btn icon v-if="options.profile_url" :href="options.profile_url">
         <v-icon>mdi-account</v-icon>
       </v-btn>
 
-      <v-btn
-        icon
-        v-if="user"
-        @click="logout()">
+      <v-btn icon v-if="user" @click="logout()">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
-
     </v-app-bar>
 
     <!-- Navigation drawer -->
-    <v-navigation-drawer
-      v-if="$slots.nav"
-      v-model="drawer"
-      clipped
-      app>
+    <v-navigation-drawer v-if="$slots.nav" v-model="drawer" clipped app>
       <slot name="nav" />
     </v-navigation-drawer>
 
-    <v-main
-      :class="main_background_color">
+    <v-main :class="main_background_color">
+      <!-- v-if content not super clean here -->
+      <!-- Maybe put a transition -->
+      <v-container v-if="state === 'content'" fluid>
+        <slot v-if="$slots.default" />
+        <template v-else>
+          <!-- Route transitions -->
+          <transition name="route-transition" mode="out-in" appear>
+            <router-view v-if="!route_loading" class="actual_main" />
 
-
-        <!-- Fluid to remove gutters -->
-        <!-- v-if content not super clean here -->
-        <!-- Maybe put a transition -->
-        <v-container
-          v-if="state === 'content'"
-          fluid>
-
-            <slot v-if="$slots.default"/>
-            <template v-else>
-              <!-- Route transitions -->
-              <transition
-                name="route-transition"
-                mode="out-in"
-                appear>
-
-                <router-view
-                  v-if="!route_loading"
-                  class="actual_main"/>
-
-                <!-- Haven't found a more vuetify way to do this -->
-                <div
-                  v-if="route_loading"
-                  class="route_loader_wrapper">
-                  <v-progress-circular
-                    indeterminate
-                    size="70"/>
-                </div>
-
-              </transition>
-            </template>
-
-        </v-container>
-
+            <!-- Haven't found a more vuetify way to do this -->
+            <v-row v-if="route_loading" justify="center">
+              <v-col cols="auto">
+                <v-progress-circular indeterminate size="50" />
+              </v-col>
+            </v-row>
+          </transition>
+        </template>
+      </v-container>
     </v-main>
 
     <!-- v-footer does not take app -->
-    <v-footer
-      :color="footer_background_color">
+    <v-footer :color="footer_background_color">
       <v-row dense justify="center">
         <v-col cols="auto">
-          <slot name="footer" v-if="$slots.footer"/>
+          <slot name="footer" v-if="$slots.footer" />
           <span v-else>
-            {{options.title || 'Untitled app'}} - {{options.author || 'Maxime Moreillon'}} - {{new Date().getFullYear()}}
+            {{ options.title || "Untitled app" }} -
+            {{ options.author || "Maxime Moreillon" }} -
+            {{ new Date().getFullYear() }}
           </span>
         </v-col>
       </v-row>
     </v-footer>
 
     <!-- Authentication wall in overlay -->
-    <AuthenticationWall
-      :options="options"/>
-
+    <AuthenticationWall :options="options" />
   </v-app>
 </template>
 
 <script>
-import VueCookie from 'vue-cookie'
-import StoreMixin from './mixins/store.js'
-import AuthenticationWall from './components/AuthenticationWall.vue'
+import VueCookie from "vue-cookie"
+import StoreMixin from "./mixins/store.js"
+import AuthenticationWall from "./components/AuthenticationWall.vue"
 
 export default {
-  name: 'AppTemplate',
+  name: "AppTemplate",
   props: {
-
     options: {
-      default(){return {}}
+      default() {
+        return {}
+      },
     },
   },
   mixins: [StoreMixin],
 
   components: {
-    AuthenticationWall
+    AuthenticationWall,
   },
 
-  data(){
+  data() {
     return {
       drawer: this.options.drawer,
     }
@@ -144,51 +108,44 @@ export default {
   // Used to set auth headers in Axios
   watch: {
     // User is in mixin
-    user(){
+    user() {
       this.set_authorization_header()
-      this.$emit('user',this.user)
+      this.$emit("user", this.user)
     },
-
-
   },
 
-  mounted(){
+  mounted() {
     this.set_options(this.options)
 
-    if(this.options.login_url && this.options.identification_url) {
+    if (this.options.login_url && this.options.identification_url) {
       this.get_user()
-    }
-    else this.set_state('content')
+    } else this.set_state("content")
 
     this.set_router_loading_events()
-
   },
 
   methods: {
-      set_authorization_header(){
+    set_authorization_header() {
       // check if axios is installed
-      if(!this.axios) return
+      if (!this.axios) return
 
-      const jwt = VueCookie.get("jwt") || localStorage.getItem('jwt')
+      const jwt = VueCookie.get("jwt") || localStorage.getItem("jwt")
 
       // setting or unsetting the header depends on jwt being in cookies
-      if(jwt) {
-        this.axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
+      if (jwt) {
+        this.axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`
+      } else {
+        delete this.axios.defaults.headers.common["Authorization"]
       }
-      else {
-        delete this.axios.defaults.headers.common['Authorization']
-      }
-
     },
 
-    set_router_loading_events(){
+    set_router_loading_events() {
       // Check if router is installed
-      if(!this.$router) return
+      if (!this.$router) return
 
       this.$router.beforeEach((to, from, next) => {
         this.set_route_loading(true)
         next()
-
       })
 
       this.$router.afterEach(() => {
@@ -197,39 +154,38 @@ export default {
     },
   },
   computed: {
-    main_background_color(){
-      const default_color = 'grey lighten-4'
-      if(!this.options.colors) return default_color
-      const {
-        main,
-        background,
-      } = this.options.colors
+    main_background_color() {
+      const default_color = "grey lighten-4"
+      if (!this.options.colors) return default_color
+      const { main, background } = this.options.colors
       return main || background || default_color
     },
-    footer_background_color(){
+    footer_background_color() {
       const default_color = this.main_background_color
-      if(!this.options.colors) return default_color
+      if (!this.options.colors) return default_color
       const { footer } = this.options.colors
       return footer || default_color
     },
-    app_bar_color(){
-      const default_color = '#444444'
-      if(!this.options.colors) return default_color
+    app_bar_color() {
+      const default_color = "#444444"
+      if (!this.options.colors) return default_color
       const { app_bar } = this.options.colors
       return app_bar || default_color
     },
-  }
+  },
 }
 </script>
 
-<style >
+<style>
 .debug {
   outline: 1px solid red;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .25s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
@@ -240,17 +196,19 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.route-transition-enter-active, .route-transition-leave-active {
+.route-transition-enter-active,
+.route-transition-leave-active {
   transition: opacity 0.25s;
 }
-.route-transition-enter, .route-transition-leave-to {
+.route-transition-enter,
+.route-transition-leave-to {
   opacity: 0;
 }
 
 .header_logo {
-    max-height: 2.5em;
-    object-fit: scale-down;
-    margin-right: 0.5em;
+  max-height: 2.5em;
+  object-fit: scale-down;
+  margin-right: 0.5em;
 }
 
 .rotating_logo {
@@ -261,7 +219,11 @@ export default {
 }
 
 @keyframes rotating_logo {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
