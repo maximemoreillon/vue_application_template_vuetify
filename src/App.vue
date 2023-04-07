@@ -62,7 +62,6 @@ export default {
       identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
       login_hint:
         "hello this is a hint and it is very long so I don't know how to deal with it",
-      // identification_url: 'http://172.16.98.151',
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
       jwt_storage: "localStorage",
       drawer: false,
