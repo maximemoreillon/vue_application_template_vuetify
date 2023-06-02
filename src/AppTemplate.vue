@@ -64,10 +64,20 @@
       <v-row dense justify="center">
         <v-col cols="auto">
           <slot name="footer" v-if="$slots.footer" />
-          <span v-else>
-            {{ options.title || "Untitled app" }} -
-            {{ options.author || "Maxime Moreillon" }} -
-            {{ new Date().getFullYear() }}
+          <span v-else class="footer_wrapper">
+            <span>{{ options.title || "Untitled app" }}</span>
+            <span>-</span>
+            <img
+              v-if="options.footer_logo"
+              class="footer_logo"
+              :src="options.footer_logo"
+            />
+            <img
+              v-else-if="options.footer_logo === undefined"
+              class="footer_logo rotating_logo"
+              src="./assets/img/logo/logo.png"
+            />
+            <span>{{ options.author || "Maxime Moreillon" }}</span>
           </span>
         </v-col>
       </v-row>
@@ -209,6 +219,16 @@ export default {
   max-height: 2.5em;
   object-fit: scale-down;
   margin-right: 0.5em;
+}
+
+.footer_wrapper {
+  display: inline-flex;
+  gap: 0.25em;
+  align-items: center;
+}
+.footer_logo {
+  height: 1.5em;
+  width: 1.5em;
 }
 
 .rotating_logo {

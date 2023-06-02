@@ -19,9 +19,7 @@
       </v-list>
     </template>
 
-    <template v-slot:footer>
-      test
-    </template>
+    <template v-slot:footer> </template>
   </AppTemplate>
 </template>
 
@@ -42,8 +40,8 @@ export default {
 
       // Colors
       colors: {
-        main: "red",
-        footer: "blue",
+        // main: "red",
+        // footer: "blue",
         //app_bar: 'yellow'
       },
       //main_class: 'blue lighten-4',
@@ -65,6 +63,7 @@ export default {
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
       jwt_storage: "localStorage",
       drawer: false,
+      // footer_logo: false,
       //skip_greetings: true, // do not show greetings
     },
     nav: [
