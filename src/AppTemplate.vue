@@ -177,7 +177,7 @@ export default {
       return footer || default_color
     },
     app_bar_color() {
-      const default_color = "#444444"
+      const default_color = "#000"
       if (!this.options.colors) return default_color
       const { app_bar } = this.options.colors
       return app_bar || default_color
