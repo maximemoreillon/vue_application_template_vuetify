@@ -28,6 +28,8 @@
         <v-icon>mdi-account</v-icon>
       </v-btn>
 
+      <ThemeToggler v-if="!options.hide_theme_controls" />
+
       <v-btn icon v-if="user" @click="logout()">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -92,7 +94,7 @@
 import VueCookie from "vue-cookie"
 import StoreMixin from "./mixins/store.js"
 import AuthenticationWall from "./components/AuthenticationWall.vue"
-
+import ThemeToggler from "./components/ThemeToggler.vue"
 export default {
   name: "AppTemplate",
   props: {
@@ -106,6 +108,7 @@ export default {
 
   components: {
     AuthenticationWall,
+    ThemeToggler,
   },
 
   data() {
