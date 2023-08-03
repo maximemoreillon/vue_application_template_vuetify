@@ -38,10 +38,10 @@
       <slot name="nav" />
     </v-navigation-drawer>
 
-    <v-main :class="main_background_color">
+    <v-main>
       <!-- v-if content not super clean here -->
       <!-- Maybe put a transition -->
-      <v-container v-if="state === 'content'" fluid>
+      <v-container v-if="state === 'content'" :fluid="options.fluid">
         <slot v-if="$slots.default" />
         <template v-else>
           <!-- Route transitions -->
@@ -60,7 +60,7 @@
     </v-main>
 
     <!-- v-footer does not take app -->
-    <v-footer :color="footer_background_color">
+    <v-footer>
       <v-row dense justify="center">
         <v-col cols="auto">
           <slot name="footer" v-if="$slots.footer" />
@@ -164,18 +164,6 @@ export default {
     },
   },
   computed: {
-    main_background_color() {
-      const default_color = "grey lighten-4"
-      if (!this.options.colors) return default_color
-      const { main, background } = this.options.colors
-      return main || background || default_color
-    },
-    footer_background_color() {
-      const default_color = this.main_background_color
-      if (!this.options.colors) return default_color
-      const { footer } = this.options.colors
-      return footer || default_color
-    },
     app_bar_color() {
       const default_color = "#222222"
       if (!this.options.colors) return default_color

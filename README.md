@@ -1,44 +1,40 @@
 # Vuetify application template
 
-Note: This package is intended for Vuetify 2
+Note: This package is made for Vuetify 2
 
 ## Usage
+
 ```vue
 <template>
-  <AppTemplate
-    :options="options"
-    @user="get_user($event)">
-
+  <AppTemplate :options="options" @user="get_user($event)">
     <template v-slot:nav>
-      <v-list
-        dense
-        nav >
+      <v-list dense nav>
         <v-list-item
           v-for="(item, index) in nav"
           :key="`nav_item_${index}`"
           :to="item.to"
-          exact>
+          exact
+        >
           <v-list-item-icon>
-            <v-icon>{{item.icon}}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{item.title}}</v-list-item-title>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </template>
-
   </AppTemplate>
 </template>
 
 <script>
-import AppTemplate from '@moreillon/vue_application_template_vuetify'
+import AppTemplate from "@moreillon/vue_application_template_vuetify"
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    AppTemplate
+    AppTemplate,
   },
 
   data: () => ({
@@ -48,20 +44,25 @@ export default {
       identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
     },
     nav: [
-      {title: 'Home', to: {name: 'Home'}, icon: 'mdi-home'},
-      {title: 'About', to: {name: 'About'}, icon: 'mdi-information-outline'},
-      {title: 'Misc', to: {name: 'Misc'}, icon: 'mdi-menu'},
-    ]
+      { title: "Home", to: { name: "Home" }, icon: "mdi-home" },
+      {
+        title: "About",
+        to: { name: "About" },
+        icon: "mdi-information-outline",
+      },
+      { title: "Misc", to: { name: "Misc" }, icon: "mdi-menu" },
+    ],
   }),
 
   methods: {
-    get_user(user){
+    get_user(user) {
       console.log(user)
-    }
-  }
-};
+    },
+  },
+}
 </script>
 ```
+
 ## Options
 
 ```javascript
@@ -70,12 +71,8 @@ options: {
   title: "Vuetify template example",
   author: 'Example Author', // name written in the footer
 
-  skip_greetings: true, // do not show greetings
-
   // Colors
   colors: {
-    main: 'red',
-    footer: 'blue',
     app_bar: 'yellow',
   },
 
@@ -85,8 +82,8 @@ options: {
 
   // Authentication
   // Authentication is enforced if both those the following options are set
-  login_url: process.env.VUE_APP_LOGIN_URL,
-  identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+  login_url: LOGIN_URL,
+  identification_url: IDENTIFICATION_URL,
 
 
 
