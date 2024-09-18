@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueCookie from "vue-cookie"
 import axios from "axios"
+import { UserManager } from "oidc-client-ts"
 
 const state = Vue.observable({
   // This is dirty
@@ -29,6 +30,9 @@ const mutations = {
         identification_url,
         skip_greetings,
         greeting_Duration = 1500,
+        // OIDC
+        // oidc_authority,
+        // oidc_client_id,
       },
     } = state
 
@@ -73,8 +77,48 @@ const mutations = {
         this.set_state("login")
 
         // How to deal with Axios headers?
+        // Should be done by user
       })
       .finally(() => {})
+  },
+  async get_user_oidc() {
+    this.set_state("loading")
+
+    const {
+      // state: previousState,
+      template_options: { oidc_authority, oidc_client_id },
+    } = state
+
+    const userManager = new UserManager({
+      redirect_uri: `${window.location.origin}?href=${window.location.href}`,
+      authority: oidc_authority,
+      client_id: oidc_client_id,
+    })
+    const user = await userManager.getUser()
+    if (user) {
+      this.set_user(user)
+      this.set_state("content")
+      return
+    }
+
+    try {
+      const user = await userManager.signinCallback()
+      if (!user) return
+
+      // Restore original URL from href provided in redirect_uri
+      // TODO: Check if this is a good approach
+      // PROBLEM: Vue router messes this up
+      const { searchParams } = new URL(window.location.href)
+      const originalHref = searchParams.get("href")
+      // history.replaceState({}, "", originalHref)
+      history.pushState({}, "", originalHref)
+
+      this.set_user(user)
+      this.set_state("content")
+    } catch (error) {
+      console.warn(error)
+      userManager.signinRedirect()
+    }
   },
   logout() {
     VueCookie.delete("jwt")

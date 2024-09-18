@@ -9,6 +9,7 @@
   },
   "scripts": {
     "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "dev": "npm run serve",
     "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
     "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/AppTemplate.umd.js",
     "build:es": "rollup --config build/rollup.config.js --format es --file dist/AppTemplate.esm.js",
@@ -20,6 +21,7 @@
   "dependencies": {
     "axios": "^0.21.4",
     "core-js": "^3.22.1",
+    "oidc-client-ts": "^2.4.0",
     "vue": "^2.6.14",
     "vue-axios": "^3.4.1",
     "vue-cookie": "^1.1.4",
