@@ -24,14 +24,6 @@
 </template>
 
 <script>
-const {
-  VUE_APP_LOGIN_URL,
-  VUE_APP_IDENTIFICATION_URL,
-  VUE_APP_PASSWORD_RESET_URL,
-  VUE_APP_OIDC_AUTHORITY,
-  VUE_APP_OIDC_CLIENT_ID,
-} = process.env
-
 import AppTemplate from "@/AppTemplate.vue"
 export default {
   name: "App",
@@ -61,15 +53,15 @@ export default {
       //authentication_logo: require('@/assets/skt_logo_black.svg'),
 
       homepage_url: "https://maximemoreillon.com",
-      profile_url: "https://users.maximemoreillon.com/self",
+      // profile_url: "https://users.maximemoreillon.com/self",
 
       // Authentication
-      login_url: VUE_APP_LOGIN_URL,
-      identification_url: VUE_APP_IDENTIFICATION_URL,
-      oidc_authority: VUE_APP_OIDC_AUTHORITY,
-      oidc_client_id: VUE_APP_OIDC_CLIENT_ID,
+      // login_url: process.env.VUE_APP_LOGIN_URL,
+      // identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+      oidc_authority: process.env.VUE_APP_OIDC_AUTHORITY,
+      oidc_client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
       login_hint: "hello this is a hint and ",
-      password_reset_url: VUE_APP_PASSWORD_RESET_URL,
+      password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
       // jwt_storage: "localStorage",
       drawer: false,
       // footer_logo: false,
