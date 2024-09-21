@@ -121,11 +121,14 @@ export default {
   // Used to set auth headers in Axios
   watch: {
     // User is in mixin
-    user() {
-      this.$emit("user", this.user)
+    user: {
+      handler() {
+        this.$emit("user", this.user)
 
-      if (this.options.login_url && this.options.identification_url)
-        this.set_authorization_header()
+        if (this.options.login_url && this.options.identification_url)
+          this.set_authorization_header()
+      },
+      deep: true,
     },
   },
 
