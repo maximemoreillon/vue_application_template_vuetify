@@ -1,7 +1,8 @@
 import Vue from "vue"
 import VueCookie from "vue-cookie"
 import axios from "axios"
-
+// import { UserManager } from "oidc-client-ts"
+import OidcAuth from "@moreillon/oidc-auth"
 const state = Vue.observable({
   // This is dirty
   template_options: {},
@@ -29,6 +30,9 @@ const mutations = {
         identification_url,
         skip_greetings,
         greeting_Duration = 1500,
+        // OIDC
+        // oidc_authority,
+        // oidc_client_id,
       },
     } = state
 
@@ -73,8 +77,75 @@ const mutations = {
         this.set_state("login")
 
         // How to deal with Axios headers?
+        // Should be done by user
       })
       .finally(() => {})
+  },
+  get_user_oidc() {
+    this.set_state("loading")
+
+    const {
+      // state: previousState,
+      template_options: { oidc_authority, oidc_client_id },
+    } = state
+
+    const oidcOptions = {
+      authority: oidc_authority,
+      client_id: oidc_client_id,
+    }
+
+    const auth = new OidcAuth(oidcOptions)
+    auth.init().then((user) => {
+      if (!user) return
+      this.set_user(user)
+      this.set_state("content")
+    })
+
+    auth.userManager.events.addUserLoaded((user) => {
+      this.set_user(user)
+    })
+
+    // const userManager = new UserManager({
+    //   redirect_uri: `${window.location.origin}?href=${window.location.href}`,
+    //   authority: oidc_authority,
+    //   client_id: oidc_client_id,
+    // })
+
+    // userManager
+    //   .getUser()
+    //   .then((user) => {
+    //     if (user) {
+    //       this.set_user(user)
+    //       this.set_state("content")
+    //       return
+    //     }
+
+    //     return userManager.signinCallback()
+    //   })
+    //   .then((user) => {
+    //     if (!user) return
+
+    //     // Restore original URL from href provided in redirect_uri
+    //     // TODO: Check if this is a good approach
+    //     // PROBLEM: Vue router messes this up
+    //     // TODO: use Vue router for this, if available
+    //     const { searchParams } = new URL(window.location.href)
+    //     const originalHref = searchParams.get("href")
+    //     // history.replaceState({}, "", originalHref)
+    //     // history.pushState({}, "", originalHref)
+
+    //     // this.set_user(user)
+    //     // this.set_state("content")
+    //     window.location.href = originalHref
+    //   })
+    //   .catch((error) => {
+    //     console.warn(error)
+    //     userManager.signinRedirect()
+    //   })
+
+    // userManager.events.addUserLoaded((user) => {
+    //   this.set_user(user)
+    // })
   },
   logout() {
     VueCookie.delete("jwt")

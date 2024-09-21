@@ -53,15 +53,16 @@ export default {
       //authentication_logo: require('@/assets/skt_logo_black.svg'),
 
       homepage_url: "https://maximemoreillon.com",
-      profile_url: "https://users.maximemoreillon.com/self",
+      // profile_url: "https://users.maximemoreillon.com/self",
 
       // Authentication
-      login_url: process.env.VUE_APP_LOGIN_URL,
-      identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
-      login_hint:
-        "hello this is a hint and it is very long so I don't know how to deal with it",
+      // login_url: process.env.VUE_APP_LOGIN_URL,
+      // identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+      oidc_authority: process.env.VUE_APP_OIDC_AUTHORITY,
+      oidc_client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
+      login_hint: "hello this is a hint and ",
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
-      jwt_storage: "localStorage",
+      // jwt_storage: "localStorage",
       drawer: false,
       // footer_logo: false,
       //skip_greetings: true, // do not show greetings

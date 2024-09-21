@@ -30,7 +30,7 @@
 
       <ThemeToggler v-if="!options.hide_theme_controls" />
 
-      <v-btn icon v-if="user" @click="logout()">
+      <v-btn icon v-if="user && options.login_url" @click="logout()">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
@@ -121,24 +121,40 @@ export default {
   // Used to set auth headers in Axios
   watch: {
     // User is in mixin
-    user() {
-      this.set_authorization_header()
-      this.$emit("user", this.user)
+    user: {
+      handler() {
+        this.$emit("user", this.user)
+
+        if (this.options.login_url && this.options.identification_url)
+          this.set_authorization_header()
+      },
+      deep: true,
     },
   },
 
   mounted() {
     this.set_options(this.options)
 
-    if (this.options.login_url && this.options.identification_url) {
-      this.get_user()
-    } else this.set_state("content")
+    const {
+      // Legacy
+      login_url,
+      identification_url,
+      // OIDC
+      oidc_authority,
+      oidc_client_id,
+    } = this.options
+
+    // TODO: add OIDC logic here
+    if (oidc_authority && oidc_client_id) this.get_user_oidc()
+    else if (login_url && identification_url) this.get_user()
+    else this.set_state("content")
 
     this.set_router_loading_events()
   },
 
   methods: {
     set_authorization_header() {
+      // TODO: reconsider if this is not better done by the user
       // check if axios is installed
       if (!this.axios) return
 
@@ -152,6 +168,7 @@ export default {
       }
     },
 
+    // This is to show a loder between routes
     set_router_loading_events() {
       // Check if router is installed
       if (!this.$router) return
