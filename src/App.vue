@@ -58,10 +58,13 @@ export default {
       // Authentication
       // login_url: process.env.VUE_APP_LOGIN_URL,
       // identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
-
-      oidc_authority: process.env.VUE_APP_OIDC_AUTHORITY,
-      oidc_client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
-      oidc_audience: process.env.VUE_APP_OIDC_AUDIENCE,
+      oidc: {
+        authority: process.env.VUE_APP_OIDC_AUTHORITY,
+        client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
+        extraQueryParams: {
+          audience: process.env.VUE_APP_OIDC_AUDIENCE,
+        },
+      },
 
       login_hint: "hello this is a hint and ",
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,

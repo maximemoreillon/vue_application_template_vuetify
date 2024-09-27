@@ -140,12 +140,11 @@ export default {
       login_url,
       identification_url,
       // OIDC
-      oidc_authority,
-      oidc_client_id,
+      oidc,
     } = this.options
 
     // TODO: add OIDC logic here
-    if (oidc_authority && oidc_client_id) this.get_user_oidc()
+    if (oidc.authority && oidc.client_id) this.get_user_oidc()
     else if (login_url && identification_url) this.get_user()
     else this.set_state("content")
 

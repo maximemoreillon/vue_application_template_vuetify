@@ -83,16 +83,12 @@ const mutations = {
 
     const {
       // state: previousState,
-      template_options: { oidc_authority, oidc_client_id, oidc_audience },
+      template_options: { oidc: oidcOptions },
     } = state
 
-    const auth = new OidcAuth({
-      authority: oidc_authority,
-      client_id: oidc_client_id,
-      extraQueryParams: {
-        audience: oidc_audience,
-      },
-    })
+    if (!oidcOptions) throw "OIDC not configured"
+
+    const auth = new OidcAuth(oidcOptions)
 
     auth.init().then((user) => {
       if (!user) return
