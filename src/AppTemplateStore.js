@@ -30,9 +30,6 @@ const mutations = {
         identification_url,
         skip_greetings,
         greeting_Duration = 1500,
-        // OIDC
-        // oidc_authority,
-        // oidc_client_id,
       },
     } = state
 
@@ -86,15 +83,17 @@ const mutations = {
 
     const {
       // state: previousState,
-      template_options: { oidc_authority, oidc_client_id },
+      template_options: { oidc_authority, oidc_client_id, oidc_audience },
     } = state
 
-    const oidcOptions = {
+    const auth = new OidcAuth({
       authority: oidc_authority,
       client_id: oidc_client_id,
-    }
+      extraQueryParams: {
+        audience: oidc_audience,
+      },
+    })
 
-    const auth = new OidcAuth(oidcOptions)
     auth.init().then((user) => {
       if (!user) return
       this.set_user(user)
@@ -104,48 +103,6 @@ const mutations = {
     auth.userManager.events.addUserLoaded((user) => {
       this.set_user(user)
     })
-
-    // const userManager = new UserManager({
-    //   redirect_uri: `${window.location.origin}?href=${window.location.href}`,
-    //   authority: oidc_authority,
-    //   client_id: oidc_client_id,
-    // })
-
-    // userManager
-    //   .getUser()
-    //   .then((user) => {
-    //     if (user) {
-    //       this.set_user(user)
-    //       this.set_state("content")
-    //       return
-    //     }
-
-    //     return userManager.signinCallback()
-    //   })
-    //   .then((user) => {
-    //     if (!user) return
-
-    //     // Restore original URL from href provided in redirect_uri
-    //     // TODO: Check if this is a good approach
-    //     // PROBLEM: Vue router messes this up
-    //     // TODO: use Vue router for this, if available
-    //     const { searchParams } = new URL(window.location.href)
-    //     const originalHref = searchParams.get("href")
-    //     // history.replaceState({}, "", originalHref)
-    //     // history.pushState({}, "", originalHref)
-
-    //     // this.set_user(user)
-    //     // this.set_state("content")
-    //     window.location.href = originalHref
-    //   })
-    //   .catch((error) => {
-    //     console.warn(error)
-    //     userManager.signinRedirect()
-    //   })
-
-    // userManager.events.addUserLoaded((user) => {
-    //   this.set_user(user)
-    // })
   },
   logout() {
     VueCookie.delete("jwt")
