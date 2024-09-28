@@ -30,7 +30,7 @@
 
       <ThemeToggler v-if="!options.hide_theme_controls" />
 
-      <v-btn icon v-if="user && options.login_url" @click="logout()">
+      <v-btn icon v-if="user" @click="logout()">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>

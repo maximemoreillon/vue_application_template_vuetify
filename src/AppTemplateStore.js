@@ -10,6 +10,7 @@ const state = Vue.observable({
   user: null,
   route_loading: false,
   nav_open: false,
+  oidc_auth: null,
 })
 
 const mutations = {
@@ -88,22 +89,26 @@ const mutations = {
 
     if (!oidcOptions) throw "OIDC not configured"
 
-    const auth = new OidcAuth(oidcOptions)
+    this.set_oidc_auth(new OidcAuth(oidcOptions))
 
-    auth.init().then((user) => {
+    state.oidc_auth.init().then((user) => {
       if (!user) return
       this.set_user(user)
       this.set_state("content")
     })
 
-    auth.userManager.events.addUserLoaded((user) => {
+    state.oidc_auth.userManager.events.addUserLoaded((user) => {
       this.set_user(user)
     })
   },
   logout() {
-    VueCookie.delete("jwt")
-    localStorage.removeItem("jwt")
-    this.get_user()
+    if (state.oidc_auth) {
+      state.oidc_auth.userManager.signoutRedirect()
+    } else {
+      VueCookie.delete("jwt")
+      localStorage.removeItem("jwt")
+      this.get_user()
+    }
   },
   set_user_loading(loading) {
     state.user_loading = loading
@@ -123,6 +128,10 @@ const mutations = {
   },
   toggle_nav() {
     state.nav_open = !state.nav_open
+  },
+  // OIDC
+  set_oidc_auth(oidc_auth) {
+    state.oidc_auth = oidc_auth
   },
 }
 
