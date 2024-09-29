@@ -125,7 +125,11 @@ export default {
       handler() {
         this.$emit("user", this.user)
 
-        if (this.options.login_url && this.options.identification_url)
+        if (
+          this.options.login_url &&
+          this.options.identification_url &&
+          !this.options.oidc?.authority
+        )
           this.set_authorization_header()
       },
       deep: true,
@@ -153,6 +157,7 @@ export default {
 
   methods: {
     set_authorization_header() {
+      // TODO:
       // TODO: reconsider if this is not better done by the user
       // check if axios is installed
       if (!this.axios) return
