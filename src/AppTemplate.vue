@@ -123,14 +123,8 @@ export default {
     // User is in mixin
     user: {
       handler() {
+        this.set_authorization_header()
         this.$emit("user", this.user)
-
-        if (
-          this.options.login_url &&
-          this.options.identification_url &&
-          !this.options.oidc?.authority
-        )
-          this.set_authorization_header()
       },
       deep: true,
     },
@@ -161,8 +155,13 @@ export default {
       // TODO: reconsider if this is not better done by the user
       // check if axios is installed
       if (!this.axios) return
+      if (!this.user)
+        return delete this.axios.defaults.headers.common["Authorization"]
 
-      const jwt = VueCookie.get("jwt") || localStorage.getItem("jwt")
+      const jwt =
+        this.user.access_token ||
+        VueCookie.get("jwt") ||
+        localStorage.getItem("jwt")
 
       // setting or unsetting the header depends on jwt being in cookies
       if (jwt) {

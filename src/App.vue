@@ -87,6 +87,7 @@ export default {
   methods: {
     get_user(user) {
       console.log(user)
+      console.log(this.axios.defaults.headers.common["Authorization"])
     },
   },
 }
