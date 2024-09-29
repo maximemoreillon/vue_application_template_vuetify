@@ -138,7 +138,7 @@ export default {
       login_url,
       identification_url,
       // OIDC
-      oidc,
+      oidc = {},
     } = this.options
 
     // TODO: add OIDC logic here
