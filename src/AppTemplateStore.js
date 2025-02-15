@@ -1,7 +1,6 @@
 import Vue from "vue"
 import VueCookie from "vue-cookie"
 import axios from "axios"
-// import { UserManager } from "oidc-client-ts"
 import OidcAuth from "@moreillon/oidc-auth"
 const state = Vue.observable({
   // This is dirty
@@ -23,6 +22,7 @@ const mutations = {
   },
   set_user(user) {
     state.user = user
+    this.set_axios_authorization_header()
   },
   get_user() {
     const {
@@ -65,7 +65,7 @@ const mutations = {
 
         if (error.response) {
           const { status } = error.response
-          if (status === 403) {
+          if ([401, 403].includes(status)) {
             VueCookie.delete("jwt")
             localStorage.removeItem("jwt")
           }
@@ -73,17 +73,14 @@ const mutations = {
 
         this.set_user(undefined)
         this.set_state("login")
-
-        // How to deal with Axios headers?
-        // Should be done by user
       })
       .finally(() => {})
   },
+  // TODO: name is a bit misleading
   get_user_oidc() {
     this.set_state("loading")
 
     const {
-      // state: previousState,
       template_options: { oidc: oidcOptions },
     } = state
 
@@ -91,19 +88,21 @@ const mutations = {
 
     this.set_oidc_auth(new OidcAuth(oidcOptions))
 
-    state.oidc_auth.init().then((user) => {
+    state.oidc_auth.init().then(({ user }) => {
       if (!user) return
       this.set_user(user)
       this.set_state("content")
     })
 
-    state.oidc_auth.userManager.events.addUserLoaded((user) => {
-      this.set_user(user)
+    state.oidc_auth.onTokenRefreshed(() => {
+      // User does not change
+      // TODO: find way to emit an event when this happens
+      this.set_axios_authorization_header()
     })
   },
   logout() {
     if (state.oidc_auth) {
-      state.oidc_auth.userManager.signoutRedirect()
+      state.oidc_auth.logout()
     } else {
       VueCookie.delete("jwt")
       localStorage.removeItem("jwt")
@@ -132,6 +131,30 @@ const mutations = {
   // OIDC
   set_oidc_auth(oidc_auth) {
     state.oidc_auth = oidc_auth
+  },
+
+  set_axios_authorization_header() {
+    // TODO: reconsider if this is not better done by the user
+    // check if axios is installed
+    if (!this.axios) return
+    if (!this.user)
+      return delete this.axios.defaults.headers.common["Authorization"]
+
+    let token
+
+    const oidcData = VueCookie.get("oidc") || localStorage.getItem("oidc")
+    if (state.oidc_auth && oidcData) {
+      token = JSON.parse(oidcData).access_token
+    } else {
+      token = VueCookie.get("jwt") || localStorage.getItem("jwt")
+    }
+
+    // setting or unsetting the header depends on jwt being in cookies
+    if (token) {
+      this.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+    } else {
+      delete this.axios.defaults.headers.common["Authorization"]
+    }
   },
 }
 

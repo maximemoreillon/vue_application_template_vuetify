@@ -1,5 +1,5 @@
 <template>
-  <AppTemplate :options="options" @user="get_user($event)">
+  <AppTemplate :options="options" @user="handleUserEvent($event)">
     <template v-slot:nav>
       <v-list dense nav>
         <v-list-item
@@ -56,8 +56,8 @@ export default {
       // profile_url: "https://users.maximemoreillon.com/self",
 
       // Authentication
-      // login_url: process.env.VUE_APP_LOGIN_URL,
-      // identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
+      login_url: process.env.VUE_APP_LOGIN_URL,
+      identification_url: process.env.VUE_APP_IDENTIFICATION_URL,
       oidc: {
         authority: process.env.VUE_APP_OIDC_AUTHORITY,
         client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
@@ -66,7 +66,7 @@ export default {
         },
       },
 
-      login_hint: "hello this is a hint and ",
+      login_hint: "hello this is a hint",
       password_reset_url: process.env.VUE_APP_PASSWORD_RESET_URL,
       // jwt_storage: "localStorage",
       drawer: false,
@@ -85,9 +85,8 @@ export default {
   }),
 
   methods: {
-    get_user(user) {
+    handleUserEvent(user) {
       console.log(user)
-      console.log(this.axios.defaults.headers.common["Authorization"])
     },
   },
 }

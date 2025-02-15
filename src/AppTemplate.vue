@@ -91,16 +91,15 @@
 </template>
 
 <script>
-import VueCookie from "vue-cookie"
-import StoreMixin from "./mixins/store.js"
-import AuthenticationWall from "./components/AuthenticationWall.vue"
-import ThemeToggler from "./components/ThemeToggler.vue"
+import StoreMixin from "./mixins/store.js";
+import AuthenticationWall from "./components/AuthenticationWall.vue";
+import ThemeToggler from "./components/ThemeToggler.vue";
 export default {
   name: "AppTemplate",
   props: {
     options: {
       default() {
-        return {}
+        return {};
       },
     },
   },
@@ -114,24 +113,24 @@ export default {
   data() {
     return {
       drawer: this.options.drawer,
-    }
+    };
   },
 
   // Watching user changes (i.e. user has logged in)
+  // TODO: Maybe this is not the best approach
   // Used to set auth headers in Axios
   watch: {
     // User is in mixin
     user: {
       handler() {
-        this.set_authorization_header()
-        this.$emit("user", this.user)
+        this.$emit("user", this.user);
       },
       deep: true,
     },
   },
 
   mounted() {
-    this.set_options(this.options)
+    this.set_options(this.options);
 
     const {
       // Legacy
@@ -139,62 +138,46 @@ export default {
       identification_url,
       // OIDC
       oidc = {},
-    } = this.options
+    } = this.options;
 
-    // TODO: add OIDC logic here
-    if (oidc.authority && oidc.client_id) this.get_user_oidc()
-    else if (login_url && identification_url) this.get_user()
-    else this.set_state("content")
+    if (oidc.authority && oidc.client_id) {
+      this.get_user_oidc();
+      // Create an event for the parent just in case
+      // TODO: this is a bit dirty, improve
+      this.oidc_auth.onTokenRefreshed((oidcData) => {
+        this.$emit("accessTokenRefreshed", oidcData);
+      });
+    } else if (login_url && identification_url) this.get_user();
+    else this.set_state("content");
 
-    this.set_router_loading_events()
+    this.set_router_loading_events();
   },
 
   methods: {
-    set_authorization_header() {
-      // TODO:
-      // TODO: reconsider if this is not better done by the user
-      // check if axios is installed
-      if (!this.axios) return
-      if (!this.user)
-        return delete this.axios.defaults.headers.common["Authorization"]
-
-      const jwt =
-        this.user.access_token ||
-        VueCookie.get("jwt") ||
-        localStorage.getItem("jwt")
-
-      // setting or unsetting the header depends on jwt being in cookies
-      if (jwt) {
-        this.axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`
-      } else {
-        delete this.axios.defaults.headers.common["Authorization"]
-      }
-    },
-
     // This is to show a loder between routes
     set_router_loading_events() {
       // Check if router is installed
-      if (!this.$router) return
+      if (!this.$router) return;
 
       this.$router.beforeEach((to, from, next) => {
-        this.set_route_loading(true)
-        next()
-      })
+        this.set_route_loading(true);
+        next();
+      });
 
       this.$router.afterEach(() => {
-        this.set_route_loading(false)
-      })
+        this.set_route_loading(false);
+      });
     },
   },
   computed: {
     app_bar_color() {
-      const default_color = "#222222"
-      if (!this.options.colors) return default_color
-      const { app_bar } = this.options.colors
-      return app_bar || default_color
+      const default_color = "#222222";
+      if (!this.options.colors) return default_color;
+      const { app_bar } = this.options.colors;
+      return app_bar || default_color;
     },
   },
-}
+};
 </script>
 
 <style>
