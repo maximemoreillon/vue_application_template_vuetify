@@ -36,7 +36,12 @@
     </v-app-bar>
 
     <!-- Navigation drawer -->
-    <v-navigation-drawer v-if="$slots.nav" v-model="drawer" clipped app>
+    <v-navigation-drawer
+      v-if="$slots.nav && state === 'content'"
+      v-model="drawer"
+      clipped
+      app
+    >
       <slot name="nav" />
     </v-navigation-drawer>
 
