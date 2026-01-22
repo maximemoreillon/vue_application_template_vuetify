@@ -1,5 +1,10 @@
 <template>
-  <AppTemplate :options="options" @user="handleUserEvent($event)">
+  <AppTemplate
+    :options="options"
+    @user="handleUserEvent($event)"
+    @tokens="handleTokensEvent($event)"
+    @accessTokenRefreshed="handleAccessTokenRefreshed($event)"
+  >
     <template v-slot:nav>
       <v-list dense nav>
         <v-list-item
@@ -24,7 +29,7 @@
 </template>
 
 <script>
-import AppTemplate from "@/AppTemplate.vue"
+import AppTemplate from "@/AppTemplate.vue";
 export default {
   name: "App",
 
@@ -86,8 +91,16 @@ export default {
 
   methods: {
     handleUserEvent(user) {
-      console.log(user)
+      console.log(`@user email: ${user.email}`);
+    },
+    handleTokensEvent(tokens) {
+      console.log(`@tokens accessToken: ${tokens.access_token.slice(0, 5)}...`);
+    },
+    handleAccessTokenRefreshed(tokens) {
+      console.log(
+        `@accessTokenRefreshed:${tokens.access_token.slice(0, 5)}...`,
+      );
     },
   },
-}
+};
 </script>

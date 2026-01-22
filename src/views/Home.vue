@@ -110,17 +110,17 @@
 export default {
   name: "Home",
   mounted() {
-    console.log("Home mounted")
-    this.getProtectedData()
+    console.log("Home mounted");
+    // this.getProtectedData()
   },
   methods: {
     async getProtectedData() {
       const { data } = await this.axios.get(
         // "https://api.food.home.maximemoreillon.com/foods"
-        "https://api.users.maximemoreillon.com/users/self"
-      )
-      console.log({ data })
+        "https://api.users.maximemoreillon.com/users/self",
+      );
+      console.log({ data });
     },
   },
-}
+};
 </script>

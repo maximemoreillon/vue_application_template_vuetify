@@ -132,9 +132,15 @@ export default {
       },
       deep: true,
     },
+    tokens: {
+      handler() {
+        this.$emit("tokens", this.tokens);
+      },
+      deep: true,
+    },
   },
 
-  mounted() {
+  async mounted() {
     this.set_options(this.options);
 
     const {
@@ -146,11 +152,12 @@ export default {
     } = this.options;
 
     if (oidc.authority && oidc.client_id) {
-      this.get_user_oidc();
-      // Create an event for the parent just in case
-      // TODO: this is a bit dirty, improve
-      this.oidc_auth.onTokenRefreshed((oidcData) => {
-        this.$emit("accessTokenRefreshed", oidcData);
+      await this.get_user_oidc();
+
+      // Is this used? Should not be
+      // NOTE: the event is also listened to in AppTemplateStore.js
+      this.oidc_auth.onTokenRefreshed((tokens) => {
+        this.$emit("accessTokenRefreshed", tokens);
       });
     } else if (login_url && identification_url) this.get_user();
     else this.set_state("content");

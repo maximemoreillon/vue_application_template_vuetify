@@ -10,6 +10,8 @@ const state = Vue.observable({
   route_loading: false,
   nav_open: false,
   oidc_auth: null,
+
+  tokens: null, // For OIDC only
 });
 
 const mutations = {
@@ -23,6 +25,9 @@ const mutations = {
   set_user(user) {
     state.user = user;
     this.set_axios_authorization_header();
+  },
+  set_tokens(tokens) {
+    state.tokens = tokens;
   },
   get_user() {
     const {
@@ -77,7 +82,7 @@ const mutations = {
       .finally(() => {});
   },
   // TODO: name is a bit misleading
-  get_user_oidc() {
+  async get_user_oidc() {
     this.set_state("loading");
 
     const {
@@ -88,18 +93,26 @@ const mutations = {
 
     this.set_oidc_auth(new OidcAuth(oidcOptions));
 
-    state.oidc_auth.init().then(({ user }) => {
-      if (!user) return;
-      this.set_user(user);
-      this.set_state("content");
-    });
+    const data = await state.oidc_auth.init();
+    const { user, tokens } = data;
 
-    state.oidc_auth.onTokenRefreshed(() => {
-      console.info("Access token refreshed");
-      // User does not change
-      // TODO: find way to emit an event when this happens
+    if (!user) return;
+
+    // TODO: consider storing tokens with the user
+
+    this.set_user(user);
+    this.set_tokens(tokens);
+    this.set_state("content");
+
+    state.oidc_auth.onTokenRefreshed((tokens) => {
+      // Setting mixin, which is watched in AppTemplate.vue so as to emit to parent
+      this.set_tokens(tokens);
+
+      // This is just for Axios, event also handled in AppTemplate.vue in mounted
+
       this.set_axios_authorization_header();
     });
+    return data;
   },
   logout() {
     if (state.oidc_auth) {
