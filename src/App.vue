@@ -2,7 +2,7 @@
   <AppTemplate
     :options="options"
     @user="handleUserEvent($event)"
-    @accessTokenRefreshed="handleAccessTokenRefreshed($event)"
+    @tokens="handleTokensEvent($event)"
   >
     <template v-slot:nav>
       <v-list dense nav>
@@ -92,10 +92,8 @@ export default {
     handleUserEvent(user) {
       console.log(`@user email: ${user.email}`);
     },
-    handleAccessTokenRefreshed(tokens) {
-      console.log(
-        `@accessTokenRefreshed:${tokens.access_token.slice(0, 5)}...`,
-      );
+    handleTokensEvent(tokens) {
+      console.log(`@tokens access_token: ${tokens.access_token.slice(0, 5)}`);
     },
   },
 };

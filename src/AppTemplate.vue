@@ -132,6 +132,12 @@ export default {
       },
       deep: true,
     },
+    tokens: {
+      handler() {
+        this.$emit("tokens", this.tokens);
+      },
+      deep: true,
+    },
   },
 
   async mounted() {
@@ -145,16 +151,8 @@ export default {
       oidc = {},
     } = this.options;
 
-    if (oidc.authority && oidc.client_id) {
-      const { tokens } = await this.get_user_oidc();
-      this.$emit("accessTokenRefreshed", tokens); // Not exactly "refreshed", just newly created
-
-      // Is this used? Should not be
-      // NOTE: the event is also listened to in AppTemplateStore.js
-      this.oidc_auth.onTokenRefreshed((tokens) => {
-        this.$emit("accessTokenRefreshed", tokens);
-      });
-    } else if (login_url && identification_url) this.get_user();
+    if (oidc.authority && oidc.client_id) await this.get_user_oidc();
+    else if (login_url && identification_url) this.get_user();
     else this.set_state("content");
 
     this.set_router_loading_events();

@@ -3,13 +3,14 @@ import VueCookie from "vue-cookie";
 import axios from "axios";
 import OidcAuth from "@moreillon/oidc-auth";
 const state = Vue.observable({
-  // This is dirty
-  template_options: {},
+  template_options: {}, // This is dirty
   state: "initial",
   user: null,
   route_loading: false,
   nav_open: false,
   oidc_auth: null,
+
+  tokens: null, // just for oidc
 });
 
 const mutations = {
@@ -92,17 +93,17 @@ const mutations = {
     this.set_oidc_auth(new OidcAuth(oidcOptions));
 
     const data = await state.oidc_auth.init();
-    const { user } = data;
+    const { user, tokens } = data;
 
     if (!user) return;
 
     this.set_user(user);
+    this.set_tokens(tokens);
     this.set_state("content");
 
-    state.oidc_auth.onTokenRefreshed(() => {
-      // This is just for Axios, event also handled in AppTemplate.vue in mounted
-      // NOTE: Setting Axios headers should probably be left to the user
-      this.set_axios_authorization_header();
+    state.oidc_auth.onTokenRefreshed((tokens) => {
+      this.set_tokens(tokens);
+      this.set_axios_authorization_header(); // NOTE: Setting Axios headers should probably be left to the user
     });
     return data;
   },
