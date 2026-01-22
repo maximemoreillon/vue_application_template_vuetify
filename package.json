@@ -8,7 +8,7 @@
     "./sfc": "src/AppTemplate.vue"
   },
   "scripts": {
-    "serve": "NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "dev": "npm run serve",
     "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
     "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/AppTemplate.umd.js",
@@ -19,7 +19,7 @@
   "author": "Maxime Moreillon",
   "license": "MIT",
   "dependencies": {
-    "@moreillon/oidc-auth": "^2.1.1",
+    "@moreillon/oidc-auth": "^3.0.6",
     "axios": "^1.7.7",
     "core-js": "^3.22.1",
     "vue": "^2.6.14",
