@@ -132,12 +132,6 @@ export default {
       },
       deep: true,
     },
-    tokens: {
-      handler() {
-        this.$emit("tokens", this.tokens);
-      },
-      deep: true,
-    },
   },
 
   async mounted() {
@@ -152,7 +146,8 @@ export default {
     } = this.options;
 
     if (oidc.authority && oidc.client_id) {
-      await this.get_user_oidc();
+      const { tokens } = await this.get_user_oidc();
+      this.$emit("accessTokenRefreshed", tokens); // Not exactly "refreshed", just newly created
 
       // Is this used? Should not be
       // NOTE: the event is also listened to in AppTemplateStore.js
